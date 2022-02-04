@@ -5,10 +5,6 @@ import Data.List.NonEmpty qualified as NE
 import Data.Tree (Tree (Node))
 import Data.Tree qualified as Tree
 
--- -------------------
--- Data.Tree helpers
--- -------------------
-
 treeInsertPath :: Eq a => NonEmpty a -> [Tree a] -> [Tree a]
 treeInsertPath =
   treeInsertPathMaintainingOrder void
