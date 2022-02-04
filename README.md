@@ -1,4 +1,4 @@
-# haskell-template
+# pathtree
 
 Haskell project template optimized for a fully reproducible and friendly development environment. Based on [Nix](http://www.srid.ca/haskell-nix) + [Flakes](https://serokell.io/blog/practical-nix-flakes) + VSCode ([HLS](https://github.com/haskell/haskell-language-server)) + [ormolu](https://github.com/tweag/ormolu) autoformatting + [Relude](https://github.com/kowainik/relude#relude) as Prelude.
 
@@ -25,10 +25,10 @@ Renaming the project:
 
 ```sh
 NAME=myproject
-git mv haskell-template.cabal ${NAME}.cabal
-nix run nixpkgs#sd -- haskell-template ${NAME} * */*
+git mv pathtree.cabal ${NAME}.cabal
+nix run nixpkgs#sd -- pathtree ${NAME} * */*
 git add . && git commit -m rename
-cd .. && mv haskell-template ${NAME} && cd ${NAME}
+cd .. && mv pathtree ${NAME} && cd ${NAME}
 ```
 
 ## Tips
