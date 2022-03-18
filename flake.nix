@@ -1,7 +1,7 @@
 {
   description = "pathtree's description";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/554d2d8aa25b6e583575459c297ec23750adb6cb";
+    nixpkgs.url = "github:nixos/nixpkgs/3eb07eeafb52bcbf02ce800f032f18d666a9498d";
     flake-utils.url = "github:numtide/flake-utils";
     flake-compat = {
       url = "github:edolstra/flake-compat";
@@ -12,24 +12,8 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         overlays = [ ];
-        pkgs =
-          import nixpkgs { inherit system overlays; config.allowBroken = true; };
+        pkgs = nixpkgs.legacyPackages.${system};
         hp = pkgs.haskellPackages; # pkgs.haskell.packages.ghc921;
-        # https://github.com/NixOS/nixpkgs/issues/140774#issuecomment-976899227
-        m1MacHsBuildTools =
-          hp.override {
-            overrides = self: super:
-              let
-                workaround140774 = hpkg: with pkgs.haskell.lib;
-                  overrideCabal hpkg (drv: {
-                    enableSeparateBinOutput = false;
-                  });
-              in
-              {
-                ghcid = workaround140774 super.ghcid;
-                ormolu = workaround140774 super.ormolu;
-              };
-          };
         project = returnShellEnv:
           hp.developPackage {
             inherit returnShellEnv;
@@ -42,12 +26,11 @@
               # Example: 
               # > NanoID = self.callCabal2nix "NanoID" inputs.NanoID { };
               # Assumes that you have the 'NanoID' flake input defined.
+              relude = self.callHackage "relude" "1.0.0.1" { };  # Not on nixpkgs, for some reason.
             };
             modifier = drv:
               pkgs.haskell.lib.addBuildTools drv
-                (with (if system == "aarch64-darwin"
-                then m1MacHsBuildTools
-                else hp); [
+                (with hp; pkgs.lib.lists.optionals returnShellEnv [
                   # Specify your build/dev dependencies here. 
                   cabal-fmt
                   cabal-install
