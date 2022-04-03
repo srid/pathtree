@@ -1,2 +1,2 @@
-# pathtree
+# path-tree
 

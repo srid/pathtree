@@ -1,5 +1,5 @@
 {
-  description = "pathtree's description";
+  description = "path-tree's description";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/3eb07eeafb52bcbf02ce800f032f18d666a9498d";
     flake-utils.url = "github:numtide/flake-utils";
@@ -17,7 +17,7 @@
         project = returnShellEnv:
           hp.developPackage {
             inherit returnShellEnv;
-            name = "pathtree";
+            name = "path-tree";
             root = ./.;
             withHoogle = false;
             overrides = self: super: with pkgs.haskell.lib; {
@@ -26,7 +26,7 @@
               # Example: 
               # > NanoID = self.callCabal2nix "NanoID" inputs.NanoID { };
               # Assumes that you have the 'NanoID' flake input defined.
-              relude = self.callHackage "relude" "1.0.0.1" { };  # Not on nixpkgs, for some reason.
+              relude = self.callHackage "relude" "1.0.0.1" { }; # Not on nixpkgs, for some reason.
             };
             modifier = drv:
               pkgs.haskell.lib.addBuildTools drv
